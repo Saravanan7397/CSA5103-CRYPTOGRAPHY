@@ -1,0 +1,39 @@
+from math import gcd
+
+# Encryption function
+def affine_encrypt(text, a, b):
+    if gcd(a, 26) != 1:
+        raise ValueError("Invalid 'a'. Must be coprime with 26.")
+    result = ''
+    for char in text.upper():
+        if char.isalpha():
+            p = ord(char) - ord('A')
+            c = (a * p + b) % 26
+            result += chr(c + ord('A'))
+        else:
+            result += char
+    return result
+
+# Valid 'a' values for mod 26
+def valid_a_values():
+    return [a for a in range(1, 26) if gcd(a, 26) == 1]
+
+# Example usage
+text = input("Enter plaintext: ")
+a = int(input("Enter value of a: "))
+b = int(input("Enter value of b: "))
+
+try:
+    encrypted = affine_encrypt(text, a, b)
+    print("Encrypted Text:", encrypted)
+except ValueError as e:
+    print(e)
+
+print("Valid values of 'a':", valid_a_values())
+
+
+
+
+Enter plaintext: HELLO
+Enter value of a: 5
+Enter value of b: 8
